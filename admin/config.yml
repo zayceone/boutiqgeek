@@ -1,0 +1,98 @@
+# Configuration de l'interface d'administration (Decap CMS)
+# >>> À MODIFIER : remplacez VOTRE_PSEUDO_GITHUB par votre identifiant GitHub
+backend:
+  name: github
+  repo: https://github.com/zayceone/boutiqgeek.git
+  branch: main
+
+locale: fr
+site_url: https://boutiqgeek.fr
+display_url: https://boutiqgeek.fr
+show_preview: false
+
+# Les photos ajoutées depuis l'administration sont rangées ici
+media_folder: images/uploads
+public_folder: /images/uploads
+
+collections:
+  - name: contenu
+    label: Ma boutique
+    files:
+
+      # ---------------------------------------------------------------
+      - label: "🛒 Articles"
+        name: articles
+        file: content/articles.json
+        format: json
+        fields:
+          - label: Articles
+            name: articles
+            widget: list
+            label_singular: article
+            summary: "{{fields.titre}} — {{fields.prix}}"
+            fields:
+              - { label: Titre, name: titre, widget: string }
+              - { label: Prix, name: prix, widget: string, required: false, hint: "Exemple : 8,00 €" }
+              - label: Catégorie
+                name: categorie
+                widget: relation
+                collection: contenu
+                file: categories
+                search_fields: ["categories.*.nom"]
+                value_field: "categories.*.nom"
+                display_fields: ["categories.*.nom"]
+                required: false
+                hint: "Choisissez dans la liste (les catégories se créent dans « Catégories »)."
+              - { label: Description, name: description, widget: text, required: false }
+              - { label: Photo, name: image, widget: image, required: false }
+              - { label: "Lien Leboncoin", name: leboncoin, widget: string, required: false }
+              - { label: "Lien Vinted", name: vinted, widget: string, required: false }
+              - { label: "Lien eBay", name: ebay, widget: string, required: false }
+              - { label: "Article vendu", name: vendu, widget: boolean, default: false, hint: "Coché : l'article reste visible avec la mention « Vendu »." }
+
+      # ---------------------------------------------------------------
+      - label: "🗂️ Catégories"
+        name: categories
+        file: content/categories.json
+        format: json
+        fields:
+          - label: Catégories
+            name: categories
+            widget: list
+            label_singular: catégorie
+            summary: "{{fields.nom}}"
+            hint: "L'ordre ici est l'ordre des boutons sur le site (glisser-déposer pour réordonner)."
+            fields:
+              - { label: Nom, name: nom, widget: string }
+
+      # ---------------------------------------------------------------
+      - label: "📄 Pages"
+        name: pages
+        file: content/pages.json
+        format: json
+        fields:
+          - label: Pages
+            name: pages
+            widget: list
+            label_singular: page
+            summary: "{{fields.titre}}"
+            hint: "Chaque page ajoute un onglet dans le menu du site, entre « Boutique » et « Contact »."
+            fields:
+              - { label: "Titre (nom de l'onglet)", name: titre, widget: string }
+              - { label: Contenu, name: contenu, widget: markdown }
+
+      # ---------------------------------------------------------------
+      - label: "⚙️ Réglages du site"
+        name: reglages
+        file: content/site.json
+        format: json
+        fields:
+          - { label: "Nom de la boutique", name: titre, widget: string, hint: "Le dernier mot s'affiche en couleur." }
+          - { label: "Phrase d'accroche", name: accroche, widget: string }
+          - { label: "Description pour Google", name: description_seo, widget: text, required: false }
+          - { label: "E-mail de contact", name: email, widget: string }
+          - { label: "Lien de ma boutique Vinted", name: vinted, widget: string, required: false }
+          - { label: "Lien de ma boutique Leboncoin", name: leboncoin, widget: string, required: false }
+          - { label: "Lien de ma boutique eBay", name: ebay, widget: string, required: false }
+          - { label: "Texte de l'onglet Contact", name: contact_texte, widget: text }
+          - { label: "Texte du bas de page", name: pied_de_page, widget: string }
