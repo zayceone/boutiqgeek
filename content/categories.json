@@ -1,6 +1,13 @@
 {
   "categories": [
-    { "nom": "Cartes Pokémon" },
-    { "nom": "Figurines LEGO" }
+    {
+      "nom": "Cartes Pokémon"
+    },
+    {
+      "nom": "Figurines LEGO"
+    },
+    {
+      "nom": "Figurines skylanders"
+    }
   ]
 }
