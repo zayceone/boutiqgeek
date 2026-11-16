@@ -2,7 +2,7 @@
 # >>> À MODIFIER : remplacez VOTRE_PSEUDO_GITHUB par votre identifiant GitHub
 backend:
   name: github
-  repo: zayceone/boutiqgeek.git
+  repo: zayceone/boutiqgeek
   branch: main
 
 locale: fr
