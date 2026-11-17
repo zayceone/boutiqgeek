@@ -1,3 +1,8 @@
 {
-  "pages": []
+  "pages": [
+    {
+      "titre": "Confidentialité",
+      "contenu": "## Qui sommes-nous ?\nLe site boutiqgeek.fr présente les articles de La Boutique du Geek. Les achats se font sur Leboncoin, Vinted ou eBay : aucune vente et aucun paiement n'ont lieu sur ce site.\n\nResponsable du site : La Boutique du Geek\nContact : boutiqgeek@gmail.com\nHébergeur : Netlify, Inc. (États-Unis)\n\n## Quelles données sont collectées ?\nLe site ne demande aucun compte et n'a pas de formulaire. Il ne collecte aucune donnée sans votre accord, sauf les données techniques nécessaires à son fonctionnement (adresse IP traitée par l'hébergeur).\n\nAvec votre accord, nous utilisons Google Analytics pour mesurer l'audience : pages vues, durée de visite, provenance, clics vers Leboncoin, Vinted ou eBay. Ces données servent uniquement à améliorer le site. Elles sont collectées par Google via des cookies et peuvent être transférées hors de l'Union européenne, avec les garanties prévues par Google.\n\n## Cookies\nUn cookie est un petit fichier déposé sur votre appareil. Les cookies de mesure d'audience (Google Analytics) ne sont déposés qu'après votre clic sur « Accepter ». Vous pouvez refuser : le site fonctionne normalement. Votre choix est conservé sur votre appareil, et vous pouvez le modifier à tout moment avec le lien « Gérer les cookies » en bas de page.\n\nVous pouvez aussi supprimer les cookies depuis les réglages de votre navigateur.\n\n## Vos droits\nVous pouvez demander l'accès à vos données, leur rectification ou leur suppression en écrivant à boutiqgeek@gmail.com. Vous pouvez aussi déposer une réclamation auprès de la CNIL (cnil.fr).\n"
+    }
+  ]
 }

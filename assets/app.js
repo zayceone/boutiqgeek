@@ -33,6 +33,8 @@ function routeSlug(kind){
   return new URLSearchParams(location.search).get(kind==="categorie" ? "c" : "p") || "";
 }
 const catOf = p => p.categorie || "Autres";
+/* La page « Confidentialité » (créée dans l'admin) est reliée au pied de page et à la bannière cookies, pas au menu */
+const privacyPage = () => pages.find(p=>/confidentialit/.test(slugify(p.titre)));
 function byLatest(a,b){
   const ha=!isNaN(a._t), hb=!isNaN(b._t);
   if(ha&&hb&&a._t!==b._t) return b._t-a._t;
@@ -97,7 +99,9 @@ function showBanner(){
   if($("cookies")) return;
   const b = document.createElement("div"); b.className="cookies"; b.id="cookies"; b.setAttribute("role","dialog");
   const p = document.createElement("p");
-  p.textContent = "Ce site utilise des cookies de mesure d'audience et de publicité (Google), uniquement avec votre accord.";
+  p.textContent = "Ce site utilise des cookies de mesure d'audience et de publicité (Google), uniquement avec votre accord. ";
+  const pv = privacyPage();
+  if(pv){ const l=document.createElement("a"); l.href="/page/"+slugify(pv.titre); l.textContent="En savoir plus"; l.style.color="var(--accent)"; p.appendChild(l); }
   const ok = document.createElement("button"); ok.className="btn"; ok.textContent="Accepter";
   const no = document.createElement("button"); no.className="btn alt"; no.textContent="Refuser";
   ok.onclick = ()=>{ setConsent("yes"); b.remove(); loadGoogle(); };
@@ -121,6 +125,12 @@ function applySite(){
   if(site.accroche) $("tagline").textContent=site.accroche;
   if(site.description_seo){ const m=document.querySelector('meta[name=description]'); if(m) m.content=site.description_seo; }
   if(site.pied_de_page) $("footer").textContent=site.pied_de_page;
+  const pv=privacyPage(), cb=$("cookiebtn");
+  if(pv && cb){
+    const a=document.createElement("a"); a.href="/page/"+slugify(pv.titre); a.textContent=pv.titre;
+    a.style.cssText="color:var(--muted);font-size:.85rem;margin-right:14px";
+    cb.parentNode.insertBefore(a, cb);
+  }
   const box=$("shops"); box.innerHTML="";
   [["leboncoin","Leboncoin","lbc"],["vinted","Vinted","vinted"],["ebay","eBay","ebay"]].forEach(([k,l,c])=>{
     if(!site[k]) return;
@@ -134,7 +144,7 @@ function buildNav(){
   const items=[
     ["/","Accueil", PAGE==="home"],
     ...catNames().map(n=>["/categorie/"+slugify(n), n, PAGE==="categorie" && slugify(n)===slug]),
-    ...pages.map(p=>["/page/"+slugify(p.titre), p.titre, PAGE==="page" && slugify(p.titre)===slug]),
+    ...pages.filter(p=>p!==privacyPage()).map(p=>["/page/"+slugify(p.titre), p.titre, PAGE==="page" && slugify(p.titre)===slug]),
     ["/contact","Contact", PAGE==="contact"]
   ];
   items.forEach(([href,label,on])=>{
