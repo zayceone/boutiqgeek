@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catégorie – La Boutique du Geek</title>
+<meta name="description" content="La Boutique du Geek : jeux vidéo, goodies et objets de collection d'occasion.">
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body data-page="categorie">
+
+<header>
+  <h1><a href="/" id="h1">La Boutique du <span>Geek</span></a></h1>
+  <p class="tag" id="tagline">Jeux, goodies et objets de collection d'occasion</p>
+  <nav id="nav" aria-label="Menu"></nav>
+  <div class="shops" id="shops"></div>
+</header>
+
+<main class="container">
+  <div class="adslot" id="ad" hidden></div>
+
+  <div class="pagehead">
+    <h2 id="ctitle"></h2>
+    <p id="cdesc"></p>
+  </div>
+
+  <div class="tools" id="ctools"><input id="q" type="search" placeholder="Rechercher dans cette catégorie…" aria-label="Rechercher"></div>
+  <div class="grid" id="grid"></div>
+  <p class="empty" id="empty" hidden>Aucun article trouvé.</p>
+  <p class="err" id="err" hidden>Impossible de charger les articles pour le moment. Réessayez dans un instant.</p>
+</main>
+
+<footer>
+  <p id="footer">© La Boutique du Geek – Les achats se font sur les plateformes Leboncoin, Vinted et eBay.</p>
+  <p><button class="linkbtn" id="cookiebtn" hidden>Gérer les cookies</button></p>
+</footer>
+
+<script src="/assets/app.js"></script>
+</body>
+</html>

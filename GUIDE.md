@@ -65,3 +65,45 @@ Astuce : crée d'abord la catégorie dans « Catégories », puis choisis-la dan
 ## Tes 12 articles actuels
 
 Les 12 articles de ton tableau « mes articles » sont déjà dans `content/articles.json`. Pour les 8 qui n'avaient pas de titre, il a été déduit du lien Vinted : relis-les et corrige si besoin depuis /admin. Aucun n'a encore de photo (une icône 🎮 s'affiche à la place). Le tableau Google Sheets n'est plus utilisé par le site.
+
+---
+
+# Version 2 : plusieurs pages, statistiques et publicité
+
+## Ce qui a changé
+- **Accueil** : un rectangle par catégorie avec les **4 derniers articles en vente** (les articles « vendus » n'y figurent pas) et un lien « Voir toute la catégorie ».
+- **Une page par catégorie** (adresse du type `boutiqgeek.fr/categorie/cartes-pokemon`) avec tous ses articles, les vendus en dernier, et une recherche.
+- **Pages de texte** : `boutiqgeek.fr/page/a-propos`, etc. Le menu se construit tout seul avec vos catégories et vos pages.
+- Les articles sans catégorie vont dans une catégorie « Autres ».
+- « Les plus récents » = date de mise en vente (champ rempli automatiquement quand vous ajoutez un article). Les anciens articles sans date restent dans l'ordre de la liste, après les articles datés.
+
+## Mise à jour du site (une seule fois)
+1. Dézippez `mise-a-jour-site-v2.zip`.
+2. Sur GitHub, ouvrez le dépôt `boutiqgeek` → **Add file → Upload files**.
+3. Glissez **tout le contenu** du dossier dézippé (les fichiers `.html`, `_redirects`, et les dossiers `assets` et `admin`), puis **Commit changes**. Les fichiers du même nom sont remplacés.
+4. Ne touchez pas au dossier `content` : il contient vos articles et catégories actuels (il n'est volontairement pas dans le zip).
+5. Netlify redéploie en environ une minute. Si le site affiche une page vide, faites Ctrl+F5.
+
+## Google Analytics (statistiques)
+1. Allez sur analytics.google.com → **Admin → Créer → Propriété**, puis **Flux de données → Web** avec l'adresse `https://boutiqgeek.fr`.
+2. Copiez l'**ID de mesure** (il commence par `G-`).
+3. Dans `/admin` → **Réglages du site** → **Google Analytics : ID de mesure**, collez-le, puis **Publier**.
+
+Le site envoie aussi deux événements utiles : `voir_article` (ouverture d'une fiche) et `clic_achat` (clic sur Leboncoin, Vinted ou eBay, avec le nom de l'article). Dans Analytics, ils apparaissent dans **Rapports → Engagement → Événements** après 24 h environ.
+
+## Bandeau publicitaire Google
+Il y a deux choses différentes chez Google :
+- **Google AdSense** : afficher de la pub *sur votre site* pour gagner de l'argent. C'est ce que prépare le bandeau (en haut de chaque page, sous le menu).
+- **Google Ads** : payer pour *promouvoir votre boutique* sur Google. Pour suivre vos campagnes, collez l'ID de balise (`AW-…`) dans « Google Ads : ID de balise ».
+
+Pour AdSense :
+1. Créez un compte sur adsense.google.com et ajoutez le site `boutiqgeek.fr`. Google doit valider le site, ce qui peut prendre plusieurs jours, et un petit site avec peu de contenu est parfois refusé au début.
+2. Copiez l'**ID éditeur** (`ca-pub-…`) dans « Bandeau pub Google AdSense : ID éditeur ».
+3. Dans AdSense, créez un **bloc d'annonces display** et copiez son **ID de bloc** (des chiffres) dans « ID du bloc ».
+4. Dans le dépôt GitHub, créez un fichier `ads.txt` à la racine contenant la ligne que vous donne AdSense (de la forme `google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0`).
+5. Publiez. Tant que ces champs sont vides, aucune pub n'apparaît et rien n'est chargé.
+
+## Cookies et RGPD
+Dès qu'un ID Google est renseigné, une bannière demande l'accord des visiteurs. **Rien de Google n'est chargé avant le « Accepter »**, et un lien « Gérer les cookies » est ajouté en bas de page. Tant que aucun ID n'est saisi, ni bannière ni cookie.
+
+Pensez à créer, dans **Pages**, une page « Confidentialité » (qui vous êtes, quels cookies Google sont utilisés, contact). Le site ne vous écrit pas ce texte légal à votre place.

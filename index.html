@@ -5,285 +5,45 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>La Boutique du Geek – Occasions geek, jeux, collection</title>
 <meta name="description" content="La Boutique du Geek : jeux vidéo, goodies et objets de collection d'occasion. Achetez via Leboncoin, Vinted ou eBay.">
-<style>
-  :root{--bg:#0f1220;--card:#1a1e33;--txt:#eef0ff;--muted:#9aa0c3;--accent:#7c5cff;--lbc:#ff6e14;--vinted:#09b1ba;--ebay:#e53238}
-  *{box-sizing:border-box;margin:0}
-  body{font-family:system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.5}
-  header{padding:28px 16px 8px;text-align:center}
-  h1{font-size:clamp(1.6rem,5vw,2.4rem)}
-  h1 span{color:var(--accent)}
-  .tag{color:var(--muted);margin-top:6px}
-  nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:18px 0 4px}
-  nav button{background:var(--card);color:var(--txt);border:1px solid #2c3254;border-radius:999px;padding:9px 20px;font-size:1rem;cursor:pointer}
-  nav button.on{background:var(--accent);border-color:var(--accent);font-weight:700}
-  .shops{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
-  .pill{padding:8px 14px;border-radius:999px;color:#fff;text-decoration:none;font-weight:600;font-size:.9rem}
-  .container{max-width:1100px;margin:0 auto;padding:0 16px 48px}
-  .tab{display:none}.tab.on{display:block}
-  .tools{margin:20px 0 10px}
-  input[type=search]{width:100%;background:var(--card);color:var(--txt);border:1px solid #2c3254;border-radius:10px;padding:10px 12px;font-size:1rem}
-  .chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 18px}
-  .chip{background:var(--card);color:var(--txt);border:1px solid #2c3254;border-radius:999px;padding:6px 14px;cursor:pointer;font-size:.9rem}
-  .chip.on{background:var(--accent);border-color:var(--accent)}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
-  .card{background:var(--card);border-radius:14px;overflow:hidden;cursor:pointer;border:1px solid transparent;transition:.15s;text-align:left;color:inherit;padding:0;font:inherit;position:relative}
-  .card:hover,.card:focus-visible{border-color:var(--accent);transform:translateY(-2px);outline:none}
-  .card img{width:100%;aspect-ratio:1;object-fit:cover;display:block;background:#242a4a}
-  .card .in{padding:10px 12px 14px}
-  .card h3{font-size:1rem;margin-bottom:4px}
-  .price{color:var(--accent);font-weight:700}
-  .cat{color:var(--muted);font-size:.8rem}
-  .sold{position:absolute;top:10px;left:10px;background:#c0392b;color:#fff;font-weight:700;font-size:.8rem;padding:3px 10px;border-radius:999px}
-  .card.isold img{opacity:.45}
-  .empty{color:var(--muted);text-align:center;padding:40px 0}
-  .modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;padding:16px;z-index:10}
-  .modal.open{display:flex}
-  .box{background:var(--card);border-radius:16px;max-width:460px;width:100%;max-height:92vh;overflow:auto;position:relative}
-  .box img{width:100%;max-height:300px;object-fit:cover;display:block}
-  .box .in{padding:16px}
-  .close{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.6);color:#fff;border:0;border-radius:50%;width:36px;height:36px;font-size:1.2rem;cursor:pointer}
-  .buy{display:block;text-align:center;margin-top:10px;padding:12px;border-radius:10px;color:#fff;font-weight:700;text-decoration:none}
-  .lbc{background:var(--lbc)}.vinted{background:var(--vinted)}.ebay{background:var(--ebay)}
-  .ask{display:block;text-align:center;margin-top:14px;color:var(--muted);font-size:.9rem}
-  .sec{margin-top:40px;padding:20px;background:var(--card);border-radius:14px;text-align:center}
-  .sec h2{font-size:1.2rem;margin-bottom:10px}
-  #qr{display:inline-block;background:#fff;padding:10px;border-radius:10px;margin:8px 0}
-  .btn{display:inline-block;margin:4px;padding:9px 14px;border-radius:10px;background:var(--accent);color:#fff;text-decoration:none;border:0;font-size:.95rem;cursor:pointer}
-  .contact{max-width:560px;margin:28px auto 0;text-align:center}
-  .contact p{color:var(--muted);margin:10px 0}
-  .contact .btn{font-size:1.05rem;padding:12px 20px}
-  /* Pages de texte (créées depuis l'administration) */
-  .page{max-width:760px;margin:28px auto 0;padding:24px;background:var(--card);border-radius:14px}
-  .page h2{font-size:1.5rem;margin-bottom:14px}
-  .md>*+*{margin-top:12px}
-  .md h1,.md h2,.md h3{margin-top:22px}
-  .md h3{font-size:1.1rem}
-  .md ul,.md ol{padding-left:22px}
-  .md a{color:var(--accent)}
-  .md img{max-width:100%;border-radius:10px}
-  .md blockquote{border-left:3px solid var(--accent);padding-left:12px;color:var(--muted)}
-  .md code{background:#242a4a;padding:1px 6px;border-radius:6px}
-  .err{color:var(--muted);text-align:center;padding:30px 0}
-  footer{text-align:center;color:var(--muted);font-size:.85rem;padding:24px 16px}
-</style>
+<link rel="stylesheet" href="/assets/style.css">
 </head>
-<body>
+<body data-page="home">
 
 <header>
-  <h1 id="h1">La Boutique du <span>Geek</span></h1>
+  <h1><a href="/" id="h1">La Boutique du <span>Geek</span></a></h1>
   <p class="tag" id="tagline">Jeux, goodies et objets de collection d'occasion</p>
-  <nav id="nav"></nav>
+  <nav id="nav" aria-label="Menu"></nav>
   <div class="shops" id="shops"></div>
 </header>
 
 <main class="container">
+  <div class="adslot" id="ad" hidden></div>
 
-  <!-- ONGLET BOUTIQUE -->
-  <section class="tab on" id="tab-boutique">
-    <div class="tools"><input id="q" type="search" placeholder="Rechercher un article…" aria-label="Rechercher"></div>
-    <div class="chips" id="chips"></div>
-    <div class="grid" id="grid"></div>
-    <p class="empty" id="empty" hidden>Aucun article trouvé.</p>
-    <p class="err" id="err" hidden>Impossible de charger les articles pour le moment. Réessayez dans un instant.</p>
+  <div class="tools"><input id="q" type="search" placeholder="Rechercher un article…" aria-label="Rechercher"></div>
 
-    <section class="sec">
-      <h2>Partager la boutique</h2>
-      <div id="qr"></div><br>
-      <button class="btn" id="dlqr">Télécharger le QR code</button>
-      <button class="btn" id="copy">Copier le lien</button>
-      <a class="btn" id="wa" target="_blank" rel="noopener">WhatsApp</a>
-      <a class="btn" id="fb" target="_blank" rel="noopener">Facebook</a>
-    </section>
+  <!-- Un bandeau de 4 vignettes par catégorie (derniers articles mis en vente) -->
+  <div id="bands"></div>
+
+  <div id="results" hidden><div class="grid" id="grid"></div></div>
+  <p class="empty" id="empty" hidden>Aucun article en vente pour le moment.</p>
+  <p class="err" id="err" hidden>Impossible de charger les articles pour le moment. Réessayez dans un instant.</p>
+
+  <section class="sec">
+    <h2>Partager la boutique</h2>
+    <div id="qr"></div><br>
+    <button class="btn" id="dlqr">Télécharger le QR code</button>
+    <button class="btn" id="copy">Copier le lien</button>
+    <a class="btn" id="wa" target="_blank" rel="noopener">WhatsApp</a>
+    <a class="btn" id="fb" target="_blank" rel="noopener">Facebook</a>
   </section>
-
-  <!-- PAGES CRÉÉES DEPUIS L'ADMINISTRATION -->
-  <section class="tab" id="tab-page">
-    <article class="page">
-      <h2 id="ptitle"></h2>
-      <div class="md" id="pbody"></div>
-    </article>
-  </section>
-
-  <!-- ONGLET CONTACT -->
-  <section class="tab" id="tab-contact">
-    <div class="contact sec">
-      <h2>Me contacter</h2>
-      <div id="ctext"></div>
-      <a class="btn" id="mailbtn">✉️ Envoyer un e-mail</a>
-      <p id="mailtxt"></p>
-    </div>
-  </section>
-
 </main>
 
-<footer id="footer">© La Boutique du Geek – Les achats se font sur les plateformes Leboncoin, Vinted et eBay.</footer>
-
-<div class="modal" id="modal" role="dialog" aria-modal="true">
-  <div class="box">
-    <button class="close" id="close" aria-label="Fermer">×</button>
-    <img id="mimg" alt="">
-    <div class="in">
-      <h2 id="mtitle"></h2>
-      <p class="price" id="mprice"></p>
-      <p class="cat" id="mcat"></p>
-      <p id="mdesc" style="color:var(--muted);margin:8px 0"></p>
-      <p id="mchoose"><strong>Choisissez où acheter :</strong></p>
-      <div id="mbuy"></div>
-      <a class="ask" id="mask">Une question sur cet article ? Écrivez-moi</a>
-    </div>
-  </div>
-</div>
+<footer>
+  <p id="footer">© La Boutique du Geek – Les achats se font sur les plateformes Leboncoin, Vinted et eBay.</p>
+  <p><button class="linkbtn" id="cookiebtn" hidden>Gérer les cookies</button></p>
+</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
-<script>
-/* =====================================================
-   Tout le contenu (articles, catégories, pages, textes, e-mail,
-   liens des boutiques) se modifie depuis  /admin
-   Ce fichier n'a normalement jamais besoin d'être touché.
-   ===================================================== */
-const CHANNELS = [
-  {key:"leboncoin", label:"Acheter sur Leboncoin", cls:"lbc"},
-  {key:"vinted",    label:"Acheter sur Vinted",    cls:"vinted"},
-  {key:"ebay",      label:"Acheter sur eBay",      cls:"ebay"}
-];
-const $ = id => document.getElementById(id);
-const placeholder = "data:image/svg+xml;utf8," + encodeURIComponent(
-  '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><rect width="400" height="400" fill="#242a4a"/><text x="200" y="215" font-size="64" text-anchor="middle" fill="#7c5cff">🎮</text></svg>');
-
-let site = {}, products = [], categories = [], pages = [], currentCat = "";
-
-const getJSON = f => fetch("content/"+f+"?t="+Date.now(), {cache:"no-cache"}).then(r=>{ if(!r.ok) throw new Error(f); return r.json(); });
-const slugify = s => (s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
-function fixPrice(p){ p=(p||"").trim(); return /^\d+([.,]\d+)?$/.test(p) ? p.replace(".",",")+" €" : p; }
-function md(el, text){
-  text = text||"";
-  if(window.marked && window.DOMPurify){ el.innerHTML = DOMPurify.sanitize(marked.parse(text)); }
-  else { el.textContent = text; el.style.whiteSpace = "pre-wrap"; }
-}
-
-/* ---------- Navigation (onglets) ---------- */
-function buildNav(){
-  const nav=$("nav"); nav.innerHTML="";
-  const items=[["boutique","Boutique"], ...pages.map(p=>["page-"+slugify(p.titre), p.titre]), ["contact","Contact"]];
-  items.forEach(([key,label])=>{
-    const b=document.createElement("button"); b.id="nav-"+key; b.textContent=label;
-    b.onclick=()=>showTab(key); nav.appendChild(b);
-  });
-}
-function showTab(key){
-  const isPage = key.startsWith("page-");
-  const page = isPage ? pages.find(p=>"page-"+slugify(p.titre)===key) : null;
-  if(isPage && !page) key="boutique";
-  const tab = (isPage && page) ? "page" : key;
-  ["boutique","page","contact"].forEach(n=>$("tab-"+n).classList.toggle("on", n===tab));
-  [...$("nav").children].forEach(b=>b.classList.toggle("on", b.id==="nav-"+key));
-  if(tab==="page"){ $("ptitle").textContent=page.titre; md($("pbody"), page.contenu); }
-  history.replaceState(null,"", key==="boutique" ? location.pathname : "#"+key);
-  window.scrollTo(0,0);
-}
-
-/* ---------- Réglages du site ---------- */
-function applySite(){
-  const t=(site.titre||"La Boutique du Geek").trim(), i=t.lastIndexOf(" ");
-  const h=$("h1"); h.textContent="";
-  if(i>0){ h.append(t.slice(0,i)+" "); const s=document.createElement("span"); s.textContent=t.slice(i+1); h.appendChild(s); } else h.textContent=t;
-  document.title = t + " – Occasions geek, jeux, collection";
-  if(site.accroche) $("tagline").textContent=site.accroche;
-  if(site.description_seo) document.querySelector('meta[name=description]').content=site.description_seo;
-  if(site.pied_de_page) $("footer").textContent=site.pied_de_page;
-  const box=$("shops"); box.innerHTML="";
-  [["leboncoin","Leboncoin","lbc"],["vinted","Vinted","vinted"],["ebay","eBay","ebay"]].forEach(([k,l,c])=>{
-    if(!site[k]) return;
-    const a=document.createElement("a"); a.href=site[k]; a.target="_blank"; a.rel="noopener";
-    a.className="pill "+c; a.textContent="Ma boutique "+l; box.appendChild(a);
-  });
-  const mail=site.email||"";
-  $("mailbtn").href="mailto:"+mail+"?subject="+encodeURIComponent("Contact depuis le site "+t);
-  $("mailbtn").hidden=!mail; $("mailtxt").textContent=mail;
-  md($("ctext"), site.contact_texte); $("ctext").classList.add("md");
-}
-
-/* ---------- Affichage des articles ---------- */
-function buildChips(){
-  const used=new Set(products.map(p=>p.categorie).filter(Boolean));
-  const ordered=categories.map(c=>c.nom).filter(n=>used.has(n));
-  const extra=[...used].filter(n=>!ordered.includes(n)).sort((a,b)=>a.localeCompare(b,"fr"));
-  const cats=[...ordered,...extra];
-  const box=$("chips"); box.innerHTML="";
-  [["", "Tout"], ...cats.map(c=>[c,c])].forEach(([val,label])=>{
-    const b=document.createElement("button"); b.className="chip"+(val===currentCat?" on":"");
-    b.textContent=label; b.onclick=()=>{ currentCat=val; buildChips(); render(); };
-    box.appendChild(b);
-  });
-  box.hidden = cats.length===0;
-}
-function render(){
-  const q=$("q").value.toLowerCase(), g=$("grid"); g.innerHTML="";
-  const list=products.filter(p=>(!currentCat||p.categorie===currentCat)&&(p.titre+" "+(p.description||"")).toLowerCase().includes(q));
-  $("empty").hidden=list.length>0 || !products.length;
-  list.forEach(p=>{
-    const b=document.createElement("button"); b.className="card"+(p.vendu?" isold":"");
-    const i=document.createElement("img"); i.src=p.image||placeholder; i.alt=p.titre; i.loading="lazy";
-    i.onerror=()=>{ i.onerror=null; i.src=placeholder; };
-    const d=document.createElement("div"); d.className="in";
-    const h=document.createElement("h3"); h.textContent=p.titre;
-    const pr=document.createElement("div"); pr.className="price"; pr.textContent=p.prix||"";
-    d.append(h,pr);
-    if(p.categorie){ const c=document.createElement("div"); c.className="cat"; c.textContent=p.categorie; d.appendChild(c); }
-    b.append(i,d);
-    if(p.vendu){ const s=document.createElement("span"); s.className="sold"; s.textContent="Vendu"; b.appendChild(s); }
-    b.onclick=()=>openModal(p); g.appendChild(b);
-  });
-}
-function openModal(p){
-  $("mimg").src=p.image||placeholder; $("mimg").alt=p.titre; $("mimg").onerror=function(){ this.onerror=null; this.src=placeholder; };
-  $("mtitle").textContent=p.titre; $("mprice").textContent=p.prix||""; $("mcat").textContent=p.categorie||"";
-  $("mdesc").textContent=p.description||"";
-  const box=$("mbuy"); box.innerHTML="";
-  if(p.vendu){
-    $("mchoose").textContent="Cet article est vendu.";
-  } else {
-    $("mchoose").innerHTML="<strong>Choisissez où acheter :</strong>";
-    CHANNELS.forEach(c=>{
-      const url=p[c.key]; if(!url) return;
-      const a=document.createElement("a"); a.href=url; a.target="_blank"; a.rel="noopener";
-      a.className="buy "+c.cls; a.textContent=c.label; box.appendChild(a);
-    });
-  }
-  $("mask").href="mailto:"+(site.email||"")+"?subject="+encodeURIComponent("Question : "+p.titre);
-  $("modal").classList.add("open");
-}
-$("close").onclick=()=>$("modal").classList.remove("open");
-$("modal").onclick=e=>{ if(e.target.id==="modal") $("modal").classList.remove("open"); };
-document.addEventListener("keydown",e=>{ if(e.key==="Escape") $("modal").classList.remove("open"); });
-$("q").oninput=render;
-
-/* ---------- Chargement du contenu ---------- */
-Promise.all([getJSON("site.json"),getJSON("articles.json"),getJSON("categories.json"),getJSON("pages.json")])
-  .then(([s,a,c,p])=>{
-    site=s||{};
-    products=(a.articles||[]).map(x=>({...x, prix:fixPrice(x.prix)})).filter(x=>x.titre);
-    categories=c.categories||[];
-    pages=(p.pages||[]).filter(x=>x.titre);
-    applySite(); buildNav(); buildChips(); render();
-    const h=location.hash.replace("#","");
-    showTab(h||"boutique");
-  })
-  .catch(()=>{ buildNav(); $("nav-boutique") && $("nav-boutique").classList.add("on"); $("err").hidden=false; });
-
-/* ---------- Partage + QR code ---------- */
-const url=location.href.split("#")[0];
-$("wa").href="https://wa.me/?text="+encodeURIComponent("La Boutique du Geek : "+url);
-$("fb").href="https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(url);
-$("copy").onclick=async()=>{ try{await navigator.clipboard.writeText(url);$("copy").textContent="Lien copié ✓";}catch(e){prompt("Copiez ce lien :",url);} };
-try{ new QRCode($("qr"),{text:url,width:180,height:180}); }catch(e){}
-$("dlqr").onclick=()=>{
-  const c=$("qr").querySelector("canvas"), im=$("qr").querySelector("img");
-  const a=document.createElement("a"); a.download="qr-boutique-du-geek.png";
-  a.href=c?c.toDataURL("image/png"):(im?im.src:""); a.click();
-};
-</script>
+<script src="/assets/app.js"></script>
 </body>
 </html>

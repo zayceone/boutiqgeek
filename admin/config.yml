@@ -1,5 +1,4 @@
 # Configuration de l'interface d'administration (Decap CMS)
-# >>> À MODIFIER : remplacez VOTRE_PSEUDO_GITHUB par votre identifiant GitHub
 backend:
   name: github
   repo: zayceone/boutiqgeek
@@ -29,9 +28,12 @@ collections:
             name: articles
             widget: list
             label_singular: article
+            add_to_top: true
             summary: "{{fields.titre}} — {{fields.prix}}"
+            hint: "Les nouveaux articles s'ajoutent en haut de la liste. Les 4 plus récents de chaque catégorie s'affichent sur l'accueil."
             fields:
               - { label: Titre, name: titre, widget: string }
+              - { label: "Date de mise en vente", name: date, widget: datetime, date_format: "DD/MM/YYYY", time_format: "HH:mm", required: false, hint: "Remplie automatiquement. Sert à trier les articles du plus récent au plus ancien." }
               - { label: Prix, name: prix, widget: string, required: false, hint: "Exemple : 8,00 €" }
               - label: Catégorie
                 name: categorie
@@ -64,6 +66,7 @@ collections:
             hint: "L'ordre ici est l'ordre des boutons sur le site (glisser-déposer pour réordonner)."
             fields:
               - { label: Nom, name: nom, widget: string }
+              - { label: "Texte d'introduction (facultatif)", name: description, widget: text, required: false, hint: "Affiché en haut de la page de cette catégorie." }
 
       # ---------------------------------------------------------------
       - label: "📄 Pages"
@@ -96,3 +99,7 @@ collections:
           - { label: "Lien de ma boutique eBay", name: ebay, widget: string, required: false }
           - { label: "Texte de l'onglet Contact", name: contact_texte, widget: text }
           - { label: "Texte du bas de page", name: pied_de_page, widget: string }
+          - { label: "Google Analytics : ID de mesure", name: ga_id, widget: string, required: false, hint: "Commence par G- (ex. G-ABC123XYZ). Laissez vide pour désactiver le suivi." }
+          - { label: "Google Ads : ID de balise (facultatif)", name: gads_id, widget: string, required: false, hint: "Commence par AW- . Sert à suivre vos campagnes Google Ads. Laissez vide si vous n'en avez pas." }
+          - { label: "Bandeau pub Google AdSense : ID éditeur", name: adsense_client, widget: string, required: false, hint: "Commence par ca-pub- . Laissez vide pour ne pas afficher de pub." }
+          - { label: "Bandeau pub Google AdSense : ID du bloc", name: adsense_slot, widget: string, required: false, hint: "Suite de chiffres, donnée par AdSense quand vous créez un bloc d'annonces. Sans elle, seul le chargement des annonces automatiques est activé." }
