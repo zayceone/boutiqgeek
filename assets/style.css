@@ -76,7 +76,7 @@ input[type=search]{width:100%;background:var(--card);color:var(--txt);border:1px
 .md code{background:#242a4a;padding:1px 6px;border-radius:6px}
 
 /* Bandeau publicitaire */
-.adslot{margin:18px 0 0;text-align:center}
+.adslot{margin:24px auto 0;max-width:728px;text-align:center;opacity:.95}
 .adslot small{display:block;color:var(--muted);font-size:.7rem;margin-bottom:2px}
 
 /* Consentement cookies */

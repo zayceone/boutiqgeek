@@ -80,19 +80,17 @@ function loadGoogle(){
     if(ga)  window.gtag("config", ga);
     if(ads) window.gtag("config", ads);
   }
-  if(pub){
+  if(pub && slot && $("ad")){                       // une seule annonce, à l'endroit prévu : jamais de pub automatique
     const s = document.createElement("script"); s.async = true; s.crossOrigin = "anonymous";
     s.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client="+encodeURIComponent(pub);
     document.head.appendChild(s);
-    if(slot && $("ad")){
-      const ins = document.createElement("ins"); ins.className = "adsbygoogle";
-      ins.style.display = "block";
-      ins.setAttribute("data-ad-client", pub); ins.setAttribute("data-ad-slot", slot);
-      ins.setAttribute("data-ad-format", "auto"); ins.setAttribute("data-full-width-responsive", "true");
-      const lab = document.createElement("small"); lab.textContent = "Publicité";
-      $("ad").append(lab, ins); $("ad").hidden = false;
-      try{ (window.adsbygoogle = window.adsbygoogle || []).push({}); }catch(e){}
-    }
+    const ins = document.createElement("ins"); ins.className = "adsbygoogle";
+    ins.style.display = "block";
+    ins.setAttribute("data-ad-client", pub); ins.setAttribute("data-ad-slot", slot);
+    ins.setAttribute("data-ad-format", "horizontal"); ins.setAttribute("data-full-width-responsive", "true");
+    const lab = document.createElement("small"); lab.textContent = "Publicité";
+    $("ad").append(lab, ins); $("ad").hidden = false;
+    try{ (window.adsbygoogle = window.adsbygoogle || []).push({}); }catch(e){}
   }
 }
 function showBanner(){
@@ -110,6 +108,9 @@ function showBanner(){
 }
 function initGoogle(){
   const {ga, ads, pub} = ids();
+  if(pub && !document.querySelector('meta[name="google-adsense-account"]')){
+    const m=document.createElement("meta"); m.name="google-adsense-account"; m.content=pub; document.head.appendChild(m);
+  }
   if(!(ga||ads||pub)) return;                       // rien de configuré : aucun cookie, aucune bannière
   const c = consent();
   if(c==="yes") loadGoogle(); else if(c!=="no") showBanner();
@@ -202,6 +203,11 @@ function openModal(p){
   track("voir_article",{article:p.titre, categorie:catOf(p)});
 }
 
+/* ---------- Emplacement publicitaire (discret : 1 seul par page, jamais en haut) ---------- */
+function makeAdSlot(){
+  const d=document.createElement("div"); d.className="adslot"; d.id="ad"; d.hidden=true; return d;
+}
+
 /* ---------- Pages ---------- */
 const matches = (p,q) => (p.titre+" "+(p.description||"")).toLowerCase().includes(q);
 
@@ -223,6 +229,7 @@ function pageHome(){
     sec.append(head,g); bands.appendChild(sec);
   });
   empty.textContent="Aucun article en vente pour le moment."; empty.hidden = shown>0;
+  if(shown>0){ const ad=makeAdSlot(); (bands.children[0]||bands).after(ad); }
   $("q").oninput=()=>{
     const q=$("q").value.trim().toLowerCase();
     if(!q){ bands.hidden=false; results.hidden=true; empty.hidden=shown>0; empty.textContent="Aucun article en vente pour le moment."; return; }
@@ -263,6 +270,7 @@ function pageCategorie(){
     renderGrid($("grid"),list); $("empty").hidden=list.length>0;
   };
   $("q").oninput=draw; draw();
+  if(all.length>0) $("empty").after(makeAdSlot());
 }
 
 function pageTexte(){
