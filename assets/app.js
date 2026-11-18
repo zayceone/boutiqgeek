@@ -51,6 +51,56 @@ function catNames(){
 }
 function setTitle(part){ const t=(site.titre||"La Boutique du Geek"); document.title = part ? part+" – "+t : t+" – Occasions geek, jeux, collection"; }
 
+
+/* ---------- Articles lus dans un tableau Google Sheets (aucune mise en ligne nécessaire pour les modifier) ---------- */
+function parseCSV(t){
+  const rows=[]; let r=[],c="",q=false;
+  for(let i=0;i<t.length;i++){
+    const ch=t[i];
+    if(q){ if(ch==='"'){ if(t[i+1]==='"'){c+='"';i++;} else q=false; } else c+=ch; }
+    else if(ch==='"') q=true;
+    else if(ch===','){ r.push(c); c=""; }
+    else if(ch==='\n'){ r.push(c); rows.push(r); r=[]; c=""; }
+    else if(ch!=='\r') c+=ch;
+  }
+  if(c.length||r.length){ r.push(c); rows.push(r); }
+  return rows;
+}
+const norm = s => (s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().trim();
+function fixImage(u){
+  u=(u||"").trim(); if(!u) return "";
+  const m=u.match(/drive\.google\.com\/file\/d\/([^\/?#]+)/) || u.match(/drive\.google\.com\/(?:open|uc)\?(?:[^#]*&)?id=([^&#]+)/);
+  return m ? "https://drive.google.com/thumbnail?id="+m[1]+"&sz=w1000" : u;
+}
+function titleFromUrl(u){
+  try{
+    const s=decodeURIComponent(new URL(u).pathname.split("/").filter(Boolean).pop()||"");
+    const t=s.replace(/^\d+-?/,"").replace(/[-_]+/g," ").trim();
+    return t ? t.charAt(0).toUpperCase()+t.slice(1) : "";
+  }catch(e){ return ""; }
+}
+function parseDate(v){
+  v=(v||"").trim(); if(!v) return NaN;
+  const m=v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  return m ? Date.UTC(+m[3], +m[2]-1, +m[1]) : Date.parse(v);
+}
+function fromSheet(csv){
+  const rows=parseCSV(csv).filter(r=>r.some(x=>x.trim()));
+  if(rows.length<2) return [];
+  const head=rows[0].map(norm), col=n=>head.indexOf(n);
+  const get=(r,n)=>{ const i=col(n); return i>=0 ? (r[i]||"").trim() : ""; };
+  /* Dans le tableau, un article ajouté plus bas est plus récent (sauf si une colonne « date » est remplie) */
+  return rows.slice(1).map((r,i)=>({
+    titre:get(r,"titre")||titleFromUrl(get(r,"vinted")||get(r,"leboncoin")||get(r,"ebay")),
+    prix:fixPrice(get(r,"prix")), categorie:get(r,"categorie"), description:get(r,"description"),
+    image:fixImage(get(r,"image")),
+    leboncoin:get(r,"leboncoin"), vinted:get(r,"vinted"), ebay:get(r,"ebay"),
+    vendu:norm(get(r,"statut")).startsWith("vendu"),
+    _i:-i, _t:parseDate(get(r,"date"))
+  })).filter(p=>p.titre);
+}
+const fetchSheet = u => fetch(u+(u.includes("?")?"&":"?")+"t="+Date.now()).then(r=>{ if(!r.ok) throw new Error("csv"); return r.text(); }).then(fromSheet);
+
 /* ---------- Statistiques (Google Analytics) ---------- */
 function track(name, params){ try{ if(window.gtag && consent()==="yes") window.gtag("event", name, params||{}); }catch(e){} }
 
@@ -99,7 +149,7 @@ function showBanner(){
   const p = document.createElement("p");
   p.textContent = "Ce site utilise des cookies de mesure d'audience et de publicité (Google), uniquement avec votre accord. ";
   const pv = privacyPage();
-  if(pv){ const l=document.createElement("a"); l.href="/page/"+slugify(pv.titre); l.textContent="En savoir plus"; l.style.color="var(--accent)"; p.appendChild(l); }
+  if(pv){ const l=document.createElement("a"); l.href="/page.html?p="+slugify(pv.titre); l.textContent="En savoir plus"; l.style.color="var(--accent)"; p.appendChild(l); }
   const ok = document.createElement("button"); ok.className="btn"; ok.textContent="Accepter";
   const no = document.createElement("button"); no.className="btn alt"; no.textContent="Refuser";
   ok.onclick = ()=>{ setConsent("yes"); b.remove(); loadGoogle(); };
@@ -128,7 +178,7 @@ function applySite(){
   if(site.pied_de_page) $("footer").textContent=site.pied_de_page;
   const pv=privacyPage(), cb=$("cookiebtn");
   if(pv && cb){
-    const a=document.createElement("a"); a.href="/page/"+slugify(pv.titre); a.textContent=pv.titre;
+    const a=document.createElement("a"); a.href="/page.html?p="+slugify(pv.titre); a.textContent=pv.titre;
     a.style.cssText="color:var(--muted);font-size:.85rem;margin-right:14px";
     cb.parentNode.insertBefore(a, cb);
   }
@@ -144,9 +194,9 @@ function buildNav(){
   const slug = PAGE==="categorie" ? slugify(routeSlug("categorie")) : PAGE==="page" ? slugify(routeSlug("page")) : "";
   const items=[
     ["/","Accueil", PAGE==="home"],
-    ...catNames().map(n=>["/categorie/"+slugify(n), n, PAGE==="categorie" && slugify(n)===slug]),
-    ...pages.filter(p=>p!==privacyPage()).map(p=>["/page/"+slugify(p.titre), p.titre, PAGE==="page" && slugify(p.titre)===slug]),
-    ["/contact","Contact", PAGE==="contact"]
+    ...catNames().map(n=>["/categorie.html?c="+slugify(n), n, PAGE==="categorie" && slugify(n)===slug]),
+    ...pages.filter(p=>p!==privacyPage()).map(p=>["/page.html?p="+slugify(p.titre), p.titre, PAGE==="page" && slugify(p.titre)===slug]),
+    ["/contact.html","Contact", PAGE==="contact"]
   ];
   items.forEach(([href,label,on])=>{
     const a=document.createElement("a"); a.href=href; a.textContent=label; if(on) a.className="on"; nav.appendChild(a);
@@ -223,7 +273,7 @@ function pageHome(){
     const sec=document.createElement("section"); sec.className="band";
     const head=document.createElement("div"); head.className="band-head";
     const h=document.createElement("h2"); h.textContent=name;
-    const more=document.createElement("a"); more.href="/categorie/"+slugify(name); more.textContent="Voir toute la catégorie →";
+    const more=document.createElement("a"); more.href="/categorie.html?c="+slugify(name); more.textContent="Voir toute la catégorie →";
     head.append(h,more);
     const g=document.createElement("div"); g.className="grid four"; renderGrid(g,list);
     sec.append(head,g); bands.appendChild(sec);
@@ -289,12 +339,18 @@ function pageContact(){
 }
 
 /* ---------- Démarrage ---------- */
-if(location.hash==="#contact" && PAGE!=="contact"){ location.replace("/contact"); }
+if(location.hash==="#contact" && PAGE!=="contact"){ location.replace("/contact.html"); }
 buildModal();
-Promise.all([getJSON("site.json"),getJSON("articles.json"),getJSON("categories.json"),getJSON("pages.json")])
-  .then(([s,a,c,p])=>{
+const pSite=getJSON("site.json"), pArt=getJSON("articles.json").catch(()=>({articles:[]})),
+      pCat=getJSON("categories.json").catch(()=>({categories:[]})), pPag=getJSON("pages.json").catch(()=>({pages:[]}));
+pSite.then(async s=>{
     site = s||{};
-    products = (a.articles||[]).map((x,i)=>({...x, prix:fixPrice(x.prix), vendu:!!x.vendu, _i:i, _t:Date.parse(x.date||"")})).filter(x=>x.titre);
+    let sheet = null;
+    const u=(site.articles_csv_url||"").trim();
+    if(/^https:\/\/docs\.google\.com\//.test(u)){ try{ sheet = await fetchSheet(u); }catch(e){ sheet = null; } }
+    const [a,c,p] = await Promise.all([pArt,pCat,pPag]);
+    products = (sheet && sheet.length) ? sheet
+      : (a.articles||[]).map((x,i)=>({...x, prix:fixPrice(x.prix), vendu:!!x.vendu, _i:i, _t:Date.parse(x.date||"")})).filter(x=>x.titre);
     categories = c.categories||[];
     pages = (p.pages||[]).filter(x=>x.titre);
     applySite(); buildNav();
