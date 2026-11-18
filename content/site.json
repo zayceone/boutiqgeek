@@ -11,5 +11,6 @@
   "contact_texte": "Une question sur un article, une recherche particulière ? Écrivez-moi par e-mail.\n\nLes achats se font directement sur Leboncoin, Vinted ou eBay, depuis la fiche de chaque article.\nCertains articles ne sont pas sur tout les sites, contacter moi pour ajouter les articles voulus",
   "description_seo": "La Boutique du Geek : Jeux, jouets, figurines, cartes, goodies, objets de collection et d'occasion. Achetez via Leboncoin, Vinted ou eBay.",
   "email": "boutiqgeek@gmail.com",
-  "adsense_client": "ca-pub-7703478649434655"
+  "adsense_client": "ca-pub-7703478649434655",
+  "articles_csv_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vS8hJqb99f9j6Ttn3sVZIXSttLTJHIpr_DJS9vMpOv5aYo0uNnwpcLUISxMFH8XKU07UDEsjCTk5p99/pub?gid=112622258&single=true&output=csv"
 }
