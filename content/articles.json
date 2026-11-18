@@ -2,14 +2,14 @@
   "articles": [
     {
       "vendu": false,
-      "prix": "8,00 €",
+      "prix": "",
       "titre": "Booster Pokémon scellé SV10 Scarlet Violet (JP)",
       "ebay": "",
       "categorie": "Cartes Pokémon",
       "vinted": "https://www.vinted.fr/items/9294180801-booster-pokemon-scelle-sv10-scarlet-violetjp",
       "leboncoin": "",
-      "image": "",
-      "description": "Booster japonais scellé."
+      "image": "/images/uploads/61kiu2ppdll._ac_sl1500_.avif",
+      "description": "Pokémon TCG : Scarlet&Violet Expansion - Glory of Team Rocket (SV10) Booster Pack - JPN"
     },
     {
       "vendu": false,
